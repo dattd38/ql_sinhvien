@@ -1,7 +1,7 @@
 class Student {
-  late String fullName;
-  late int yearOfBirth;
-  late String gender;
+  String fullName;
+  int yearOfBirth;
+  String gender;
 
   Student(
       {required this.fullName,

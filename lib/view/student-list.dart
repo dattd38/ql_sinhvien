@@ -1,42 +1,59 @@
 import 'package:flutter/material.dart';
+import '../controller/student_controller.dart';
 import '../model/student.dart';
 import 'student_details.dart';
+import 'student_add.dart';
 
 class StudentList extends StatefulWidget {
-  const StudentList({super.key, required this.title});
-  final String title;
+  // final StudentController controller;
 
+  // StudentList({required this.controller});
   @override
   _StudentListState createState() => _StudentListState();
 }
 
 class _StudentListState extends State<StudentList> {
-  List<Student> students = [
-    Student(fullName: "Duc Dat", yearOfBirth: 2003, gender: "Nam"),
-    Student(fullName: "Thu Mai", yearOfBirth: 2002, gender: "Nu"),
-    Student(fullName: "Dinh Quang", yearOfBirth: 2001, gender: "Nam"),
-  ];
+  final StudentController _controller = StudentController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Student List")),
+      appBar: AppBar(title: Text("Student Management")),
       body: ListView.builder(
-        itemCount: students.length,
+        itemCount: _controller.students.length,
         itemBuilder: (BuildContext context, int index) {
+          Student student = _controller.students[index];
           return Card(
             child: ListTile(
-              // leading: CircleAvatar(),
-              title: Text(students[index].fullName),
+              title: Text(student.fullName),
               subtitle: Text(
-                  "DOB: ${students[index].yearOfBirth} | Gender: ${students[index].gender}"),
+                  "DOB: ${student.yearOfBirth} | Gender: ${student.gender}"),
+              trailing: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  setState(() {
+                    _controller.deleteStudent(student);
+                  });
+                },
+              ),
               onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            StudentDetails(student: students[index])));
+                            StudentDetails(student: student)));
               },
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddStudent(),
             ),
           );
         },
