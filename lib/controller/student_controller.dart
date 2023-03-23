@@ -1,34 +1,35 @@
 import '../model/student.dart';
 
 class StudentController {
-  List<Student> _students = [
-    Student(fullName: "Duc Dat", yearOfBirth: 2003, gender: "Nam"),
-    Student(fullName: "Thu Mai", yearOfBirth: 2002, gender: "Nu"),
-    Student(fullName: "Dinh Quang", yearOfBirth: 2001, gender: "Nam"),
+  List<Student> students = [
+    Student(surName: 'Tran Duc', name: 'Dat', yearOfBirth: 2003, gender: 'Nam'),
+    Student(surName: 'Hoang Thu', name: 'Mai', yearOfBirth: 2002, gender: 'Nu'),
+    Student(
+        surName: 'Trinh Dinh', name: 'Quang', yearOfBirth: 2001, gender: 'Nam'),
   ];
 
-  List<Student> get students => _students;
-
   void addStudent(Student student) {
-    _students.add(student);
+    students.add(student);
   }
 
   void deleteStudent(Student student) {
-    _students.remove(student);
+    students.remove(student);
   }
 
   void editStudent(Student oldStudent, Student newStudent) {
-    int index = _students.indexOf(oldStudent);
-    _students[index] = newStudent;
+    int index = students.indexOf(oldStudent);
+    students[index] = newStudent;
   }
 
   List<Student> searchStudent(String name) {
     return students
-        .where((student) => student.fullName.contains(name))
+        .where((student) =>
+            student.fullName().toLowerCase().contains(name.toLowerCase()))
         .toList();
   }
 
-  void sortStudent() {
-    students.sort((a, b) => a.fullName.compareTo(b.fullName));
+  List<Student> sortStudentByName() {
+    students.sort((a, b) => a.name.compareTo(b.name));
+    return students;
   }
 }

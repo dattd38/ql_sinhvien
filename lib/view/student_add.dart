@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ql_sinhvien/model/student.dart';
+import 'package:ql_sinhvien/view/student-list.dart';
 
 import '../controller/student_controller.dart';
 
-class AddStudent extends StatelessWidget {
-  final StudentController _controller = StudentController();
+class AddStudent extends StatefulWidget {
+  @override
+  _AddStudentState createState() => _AddStudentState();
+}
+
+class _AddStudentState extends State<AddStudent> {
+  final formKey = GlobalKey<FormState>();
+  final surNameController = TextEditingController();
   final nameController = TextEditingController();
-  final yearController = TextEditingController();
+  final yearOfBirthController = TextEditingController();
   final genderController = TextEditingController();
 
   @override
@@ -15,43 +22,73 @@ class AddStudent extends StatelessWidget {
       appBar: AppBar(
         title: Text('Add Student'),
       ),
-      body: Card(
-        child: Column(
-          children: [
-            Expanded(
-              child: TextField(
+      body: Form(
+        key: formKey,
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                controller: surNameController,
+                decoration: InputDecoration(labelText: 'Surname'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a surname';
+                  }
+                  return null;
+                },
+              ),
+              //name
+              TextFormField(
                 controller: nameController,
-                decoration: InputDecoration(hintText: 'Full name'),
+                decoration: InputDecoration(labelText: 'Name'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a name';
+                  }
+                  return null;
+                },
               ),
-            ),
-            Expanded(
-              child: TextField(
-                controller: yearController,
-                decoration: InputDecoration(hintText: 'Year of birth'),
+              //year of birth
+              TextFormField(
+                controller: yearOfBirthController,
+                decoration: InputDecoration(labelText: 'Year of Birth'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a year of birth';
+                  }
+                  return null;
+                },
               ),
-            ),
-            Expanded(
-              child: TextField(
+              //gender
+              TextFormField(
                 controller: genderController,
-                decoration: InputDecoration(hintText: 'Gender'),
+                decoration: InputDecoration(labelText: 'Gender'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a gender';
+                  }
+                  return null;
+                },
               ),
-            ),
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                final student = Student(
-                    fullName: nameController.text,
-                    yearOfBirth: int.parse(yearController.text),
-                    gender: genderController.text);
-                _controller.addStudent(student);
-                nameController.clear();
-                yearController.clear();
-                genderController.clear();
-              },
-            )
-          ],
+            ],
+          ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.save),
+          onPressed: () {
+            if (formKey.currentState!.validate()) {
+              var newStudent = Student(
+                surName: surNameController.text,
+                name: nameController.text,
+                yearOfBirth: int.parse(yearOfBirthController.text),
+                gender: genderController.text,
+              );
+              Navigator.pop(context, newStudent);
+            }
+          }),
     );
   }
 }

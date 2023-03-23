@@ -8,13 +8,13 @@ class StudentDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(student.fullName)),
+      appBar: AppBar(title: Text(student.fullName())),
       body: Card(
         child: Column(
           children: [
             ListTile(
               title: Text("Full Name"),
-              subtitle: Text(student.fullName),
+              subtitle: Text(student.fullName()),
             ),
             ListTile(
               title: Text("Year of Birth"),
